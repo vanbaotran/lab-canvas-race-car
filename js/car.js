@@ -17,20 +17,18 @@ class Car {
 
   draw() {
     if (!this.img) return; // if `this.img` is not loaded yet => don't draw
-    ctx.clearRect(0,0,W,H);
     ctx.drawImage(this.img,this.x,this.y,this.w,this.h)
-
     // TODO
   }
 
   moveLeft() {
     // TODO
-    this.x--;
+    this.x-=20;
     this.draw();
   }
   moveRight() {
     // TODO
-    this.x++;
+    this.x+=20;
     this.draw();
   }
 }

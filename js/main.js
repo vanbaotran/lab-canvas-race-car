@@ -34,6 +34,10 @@ function draw() {
   //
   // Iteration #4: obstacles
   //
+  for (let i=0; i<obstacles.length;i++){
+    obstacles[i].draw()
+    // obstacles[i].anim()
+  }
 
   // TODO
 
@@ -74,6 +78,7 @@ function animLoop() {
   frames++;
 
   draw();
+  
 
   if (!gameover) {
     raf = requestAnimationFrame(animLoop);
@@ -85,6 +90,9 @@ function startGame() {
     cancelAnimationFrame(raf);
   }
   car = new Car();
+  obstacles=[];
+  const obst= new Obstacle();
+  obstacles.push(obst);
   // TODO
 
   animLoop();
