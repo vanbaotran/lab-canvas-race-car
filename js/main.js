@@ -10,54 +10,70 @@ const H = ctx.canvas.height;
 function draw() {
   //
   // Iteration 1: road drawing
-  
-  ctx.fillStyle = 'green';
-  ctx.fillRect(0, 0, 30, canvas.height);
-  ctx.fillRect(canvas.width - 30, 0, 30, canvas.height);
-  ctx.fillStyle = 'dimgray';
-  ctx.fillRect(30, 0, 10, canvas.height);
-  ctx.fillRect(canvas.width - 40, 0, 10, canvas.height);
-  ctx.fillRect(50, 0, canvas.width - 100, canvas.height);
-  let y=0;
-  for (let i=0;i<45;i++){
-    ctx.fillStyle='white';
+  //
+  ctx.fillStyle='green';
+  ctx.fillRect(0,0,40,H);
+  ctx.fillRect(W-40,0,40,H)
+  ctx.fillStyle='dimgray';
+  ctx.fillRect(40,0,20,H);
+  ctx.fillRect(W-60,0,20,H)
+  ctx.fillRect(70,0,W-140,H)
+  for (let i=0;i<40;i++){
+    let y=0;
     y=i*50;
-    ctx.fillRect(W/2+5,y,5,20);
+    ctx.fillStyle='white';
+    ctx.fillRect(W/2-5,y,5,20)
   }
+  ctx.fillStyle='white';
+  ctx.fillRect(60,0,10,H);
+  ctx.fillRect(W-70,0,10,H)
+  
   // TODO
 
   //
   // Iteration 2: car drawing
-  //  
-  // TODO
+  //
   car.draw();
+  // TODO
+
   //
   // Iteration #4: obstacles
   //
-  for (let i=0; i<obstacles.length;i++){
-    obstacles[i].draw()
-    // obstacles[i].anim()
+
+ if (frames%250===0){
+    let obst=new Obstacle;
+    obstacles.push(obst);
+  }
+  for (let i=0;i<obstacles.length;i++){
+    obstacles[i].y++;
+    obstacles[i].draw();
   }
 
   // TODO
 
   //
   // Iteration #5: collisions
-  //
-
+  // 
+  for (let i=0;i<obstacles.length;i++){
+    if (obstacles[i].hits(car)){
+      gameover=true;
+    }
+  }
   // TODO
 
   //
   // Iteration #6: points
   //
-
   // TODO
-
+  var score = Math.floor(frames/200);//score 
+  score++;
+  ctx.font='80px serif'
+  ctx.fillStyle='white'
+  ctx.fillText(`Score:${score}`,100,100)
 }
 
 document.onkeydown = function (e) {
   if (!car) return;
-  console.log('touche appuyee',e)
   switch (e.key){
     case 'ArrowLeft':
       car.moveLeft();
@@ -66,7 +82,6 @@ document.onkeydown = function (e) {
     case 'ArrowRight':
       car.moveRight();
       car.draw();
-      break;
   }
 
   // TODO
@@ -78,7 +93,6 @@ function animLoop() {
   frames++;
 
   draw();
-  
 
   if (!gameover) {
     raf = requestAnimationFrame(animLoop);
@@ -89,11 +103,13 @@ function startGame() {
   if (raf) {
     cancelAnimationFrame(raf);
   }
-  car = new Car();
-  obstacles=[];
-  const obst= new Obstacle();
-  obstacles.push(obst);
+  
+  
   // TODO
+
+  car = new Car();//draw the car
+  obstacles=[];//draw obstacles
+ 
 
   animLoop();
 }
